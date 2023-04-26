@@ -1,0 +1,20 @@
+pipeline{
+agent any
+    stages{
+        stage('scm'){
+            steps{
+              git 'https://github.com/jayadeep0708/Train-Ticket-Reservation-System.git'
+            }
+        }
+    stage ('build'){
+        steps{
+           sh 'mvn clean package' 
+        }
+    }
+    stage('deploy'){
+        steps{
+        deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://16.16.115.34:8080/')], contextPath: 'jayadeep', war: '**/*.war'
+        }
+    }
+    }
+}
